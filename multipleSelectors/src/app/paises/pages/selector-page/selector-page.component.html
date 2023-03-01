@@ -34,6 +34,18 @@
       </select>
     </div>
 
+    <div class="col-12">
+      <label class="form-label">Frontera:</label>
+      <select class="form-control" formControlName="frontier">
+        <option value="">
+          -- Seleccione una frontera--
+        </option>
+        <option *ngFor="let frontier of frontiers?.borders" [value]="frontier">
+          {{frontier}}
+        </option>
+      </select>
+    </div>
+
   </div>
 
   <!--Button-->

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {PaisData} from "../interfaces/paises.interface";
+import {FullPaisData, PaisData} from "../interfaces/paises.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +23,10 @@ export class PaisesService {
     const urlRequest : string = `${this._baseURL}/region/${region}/${this._fieldsReponse}`;
     return this.httpService.get<PaisData[]>(urlRequest);
   }
+
+  getCountriesByAlphaCode(countryCode : string) : Observable<FullPaisData[]>{
+    const urlRequest : string = `${this._baseURL}/alpha/${countryCode}`;
+    return this.httpService.get<FullPaisData[]>(urlRequest);
+  }
+
 }
