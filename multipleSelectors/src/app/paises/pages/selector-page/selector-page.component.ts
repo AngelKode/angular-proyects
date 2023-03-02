@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {PaisesService} from "../../services/paises.service";
 import {FullPaisData, PaisData} from "../../interfaces/paises.interface";
-import {delay, filter, forkJoin, from, map, mergeMap, switchMap, tap} from "rxjs";
+import {delay, filter, forkJoin, from, map, mergeMap, Observable, Subscription, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-selector-page',
@@ -10,7 +10,7 @@ import {delay, filter, forkJoin, from, map, mergeMap, switchMap, tap} from "rxjs
   styles: [
   ]
 })
-export class SelectorPageComponent implements OnInit {
+export class SelectorPageComponent implements OnInit,OnDestroy {
 
   multipleSelect !: FormGroup;
   regions: string[] = [];
@@ -20,6 +20,10 @@ export class SelectorPageComponent implements OnInit {
 
   //UI FLAGS
   fetchingData: boolean = false;
+
+  //Observables
+  region$ !: Subscription | undefined;
+  country$ !: Subscription | undefined;
 
   //Object for handling form operators base on formName parameter
   formOperators: any = {
@@ -53,7 +57,7 @@ export class SelectorPageComponent implements OnInit {
     this.formOperators.disableInput('frontier');
 
     //When region changes
-    this.multipleSelect.get('region')?.valueChanges
+    this.region$ = this.multipleSelect.get('region')?.valueChanges
       .pipe(
         filter((regionValue) => {
           this.frontiers = [];//Reset frontier countries
@@ -82,7 +86,7 @@ export class SelectorPageComponent implements OnInit {
       })
 
     //When country changes
-    this.multipleSelect.get('country')?.valueChanges
+    this.country$ = this.multipleSelect.get('country')?.valueChanges
       .pipe(
         filter((countryCode) => {
           this.frontiers = [];//Reset frontier countries
@@ -124,6 +128,11 @@ export class SelectorPageComponent implements OnInit {
 
   save() : void{
     console.log('a')
+  }
+
+  ngOnDestroy() : void{
+    this.region$?.unsubscribe();
+    this.country$?.unsubscribe();
   }
 
   get isCountryWithBorders() : boolean{
