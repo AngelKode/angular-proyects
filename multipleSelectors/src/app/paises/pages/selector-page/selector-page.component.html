@@ -40,12 +40,25 @@
         <option value="">
           -- Seleccione una frontera--
         </option>
-        <option *ngFor="let frontier of frontiers?.borders" [value]="frontier">
-          {{frontier}}
+        <option value="Sin fronteras" *ngIf="isCountryWithBorders; else countryBorders">
+          Sin Fronteras
         </option>
+        <ng-template #countryBorders>
+          <option *ngFor="let frontier of frontiers" [value]="frontier?.name?.common || '' | lowercase">
+            {{frontier?.name?.common | titlecase}}
+          </option>
+        </ng-template>
       </select>
     </div>
 
+  </div>
+
+  <div class="row mt-3" *ngIf="fetchingData">
+    <div class="col">
+      <div class="alert alert-primary">
+        Cargando...
+      </div>
+    </div>
   </div>
 
   <!--Button-->

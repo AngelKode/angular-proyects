@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {PaisesService} from "../../services/paises.service";
 import {FullPaisData, PaisData} from "../../interfaces/paises.interface";
-import {filter, map, switchMap, tap} from "rxjs";
+import {delay, filter, forkJoin, from, map, mergeMap, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-selector-page',
@@ -13,73 +13,111 @@ import {filter, map, switchMap, tap} from "rxjs";
 export class SelectorPageComponent implements OnInit {
 
   multipleSelect !: FormGroup;
-  regions : string[] = [];
-  countries : PaisData[] = [];
-  frontiers !: FullPaisData | undefined;
+  regions: string[] = [];
+  countries: FullPaisData[] = [];
+  //frontiers : string[] = [];
+  frontiers: FullPaisData[] = [];
+
+  //UI FLAGS
+  fetchingData: boolean = false;
+
   //Object for handling form operators base on formName parameter
-  formOperators : any = {
-    resetValue: (formName : string) => {
+  formOperators: any = {
+    resetValue: (formName: string) => {
       this.multipleSelect.get(formName)?.setValue('');
     },
-    disableInput : (formName : string) => {
+    disableInput: (formName: string) => {
       this.multipleSelect.get(formName)?.disable();
     },
-    enableInput : (formName : string) => {
+    enableInput: (formName: string) => {
       this.multipleSelect.get(formName)?.enable();
+    },
+    setValue : (formName : string, newValue : string) => {
+      this.multipleSelect.get(formName)?.setValue(newValue);
     }
   }
 
-  constructor(private formBuilder : FormBuilder,
-              private paisesService : PaisesService) {
+  constructor(private formBuilder: FormBuilder,
+              private paisesService: PaisesService) {
 
     this.multipleSelect = this.formBuilder.group({
-      region   : ['',Validators.required],
-      country  : ['',[Validators.required]],
-      frontier : ['',Validators.required]
+      region: ['', Validators.required],
+      country: ['', [Validators.required]],
+      frontier: ['', Validators.required]
     })
   }
 
   ngOnInit(): void {
     this.regions = this.paisesService.regions;
-    this.multipleSelect.get('country')?.disable();
-    this.multipleSelect.get('frontier')?.disable();
+    this.formOperators.disableInput('country');
+    this.formOperators.disableInput('frontier');
 
     //When region changes
     this.multipleSelect.get('region')?.valueChanges
       .pipe(
+        filter((regionValue) => {
+          this.frontiers = [];//Reset frontier countries
+          //Cleaning country select input
+          this.formOperators.disableInput('country');
+          this.formOperators.resetValue('country');
+          return regionValue !== '';//Filter if region value is empty
+        }),
         tap((region) => {
-          this.operateFormControlNames(['country','frontier'],'resetValue');
-          this.frontiers = undefined;
-          if(region === ''){
-            this.operateFormControlNames(['country','frontier'],'disableInput');
+          this.fetchingData = true;
+        }),
+        delay(400),
+        switchMap(region => this.paisesService.getCountriesByRegion(region)),
+        tap(countriesByRegion => {
+          //Changing fetchingData flag
+          //And enable country input based on region
+          this.fetchingData = false;
+          if (countriesByRegion.length > 0) {
+            this.formOperators.enableInput('country');
             return;
           }
-          this.operateFormControlNames(['country'],'enableInput');
-        }),
-        filter((regionValue) => regionValue !== ''),
-        switchMap( region => this.paisesService.getCountriesByRegion(region))
+        })
       )
       .subscribe((countries) => {
-        this.countries = countries
+        this.countries = countries || [];
       })
 
     //When country changes
     this.multipleSelect.get('country')?.valueChanges
       .pipe(
+        filter((countryCode) => {
+          this.frontiers = [];//Reset frontier countries
+          //Cleaning frontier select input
+          this.formOperators.disableInput('frontier');
+          this.formOperators.resetValue('frontier');
+          return countryCode !== "";//Filter if country code is empty
+        }),
         tap((countryCode) => {
-          this.operateFormControlNames(['frontier'],'resetValue');
-
-          if(countryCode === ''){
-            this.operateFormControlNames(['frontier'],'disableInput');
+          this.fetchingData = true;//Flag for showing fetching data message to user
+        }),
+        delay(400),
+        switchMap(countryCode => this.paisesService.getCountriesByAlphaCode(countryCode)),
+        filter(([countryData]) => {
+          //Filtering if border information is undefined, meaning the selected country has no borders
+          if(countryData.borders === undefined){
+            this.fetchingData = false;
+            this.formOperators.disableInput('frontier');
+            this.formOperators.setValue('frontier','Sin fronteras');
+          }
+          return countryData.borders !== undefined;
+        }),
+        switchMap(country => this.paisesService.getCountryByBorders(country[0]?.borders)),
+        tap((bordersByCountry) => {
+          //Changing fetchingData flag
+          //And enable frontier input based on country borders of API response
+          this.fetchingData = false;
+          if (bordersByCountry.length > 0) {
+            this.formOperators.enableInput('frontier');
             return;
           }
-          this.operateFormControlNames(['frontier'],'enableInput');
-        }),
-        filter((countryCode) => countryCode !== ""),
-        switchMap(countryCode => this.paisesService.getCountriesByAlphaCode(countryCode))
+        })
       )
-      .subscribe((countryData) => {
-        this.frontiers = countryData[0];
+      .subscribe((borderCountriesName) => {
+        this.frontiers = borderCountriesName || [];
       })
 
   }
@@ -88,18 +126,8 @@ export class SelectorPageComponent implements OnInit {
     console.log('a')
   }
 
-  operateFormControlNames(formControlNames : string[], operator : string) : void{
-    //Verify if formControlNames parameter has any value to operate on
-    if(!(formControlNames.length > 0)){
-      return;
-    }
-
-    //Operate on each control name of formControlNames parameter base on operator parameter
-    formControlNames.forEach((controlName) => {
-      if(this.formOperators[operator] && this.multipleSelect.get(controlName)){
-        this.formOperators[operator](controlName);
-      }
-    })
+  get isCountryWithBorders() : boolean{
+    return this.frontiers.length < 1;
   }
 
 }
