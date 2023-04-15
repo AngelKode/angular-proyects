@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { log } from 'console';
 
 @Component({
   selector: 'app-show-name',
@@ -6,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class ShowNameComponent implements OnInit {
+export class ShowNameComponent implements OnInit, OnChanges {
 
-  constructor() { }
+  @Input() nombre !: string;
+
+  constructor() {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+
+  }
 
   ngOnInit(): void {
   }

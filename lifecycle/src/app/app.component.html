@@ -1,2 +1,8 @@
 <h1>Ciclo de Vida de Angular</h1>
 <hr>
+
+<button (click)="isVisible = !isVisible" style="display: block;">
+  {{isVisible ? 'Hide Component' : 'Show Component'}}
+</button>
+
+<app-page-one *ngIf="isVisible"></app-page-one>
