@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators } from "@angular/forms";
 import {PaisesService} from "../../services/paises.service";
-import {FullPaisData, PaisData} from "../../interfaces/paises.interface";
-import {delay, filter, forkJoin, from, map, mergeMap, Observable, Subscription, switchMap, tap} from "rxjs";
+import {FullPaisData } from "../../interfaces/paises.interface";
+import {delay, filter, Subscription, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-selector-page',

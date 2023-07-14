@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {combineLatest, Observable, of} from "rxjs";
-import {FullPaisData, PaisData} from "../interfaces/paises.interface";
+import {FullPaisData } from "../interfaces/paises.interface";
 
 @Injectable({
   providedIn: 'root'
