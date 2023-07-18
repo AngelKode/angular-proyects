@@ -1,0 +1,38 @@
+<div class="container m-0 p-0">
+  <h1>{{getName}}</h1>
+
+  <div class="row">
+    <div class="col-lg-6 col-xs-12">
+      <ol class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div class="row w-100">
+            <div class="col-lg-6 col-md-6 col-xs-12">
+              <h3 class="m-0 display-6">Nombre <h5>{{getName}}</h5></h3>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-12 d-flex justify-content-end align-items-center">
+              <button type="button" class="btn btn-warning">Cambiar Nombre</button>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row w-100">
+            <div class="col-lg-6 col-md-6 col-xs-12">
+              <h3 class="m-0 display-6">Edad <h5>{{getAge}}</h5></h3>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-12 d-flex justify-content-end align-items-center">
+              <button type="button" class="btn btn-warning">Cambiar Edad</button>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h3 class="m-0 display-6">Método <h5>Ninguno</h5></h3>
+        </li>
+        <li class="list-group-item">
+          <h3 class="m-0 display-6">Capitalizado <h5>{{getName | uppercase}}</h5></h3>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+</div>
+
