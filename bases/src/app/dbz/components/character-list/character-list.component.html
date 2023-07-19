@@ -1,0 +1,11 @@
+<h4 class="display-6 text-danger">
+  Character List
+</h4>
+<ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor="let character of characters">
+      <div>
+        <div class="fw-bold"><p class="lead mb-0">{{character.name}}</p></div>
+        Power: <small class="text-body-secondary">{{character.power | number}}</small>
+      </div>
+    </li>
+</ul>
