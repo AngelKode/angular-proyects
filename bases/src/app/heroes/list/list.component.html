@@ -1,1 +1,28 @@
-<p>list works!</p>
+<h2>Heroes List</h2>
+
+<div class="row">
+  <div class="col-lg-6 col-xs-12">
+
+    <h4 class="display-6"
+        *ngIf="getDeletedHero; else noneDeletedBlock">
+        Deleted hero <small class="text-danger">{{getDeletedHero}}</small>
+    </h4>
+    <ng-template #noneDeletedBlock>
+      <h4 class="display-6 text-success">None hero deleted yet.</h4>
+    </ng-template>
+
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let name of getHeroNames"
+          class="list-group-item px-0">
+        <p class="lead">{{name}}</p>
+      </li>
+    </ul>
+
+    <button type="button"
+            class="btn btn-danger w-100"
+            (click)="removeLastHero()"
+            [disabled]="getHeroNames.length < 1">
+      Delete last hero
+    </button>
+  </div>
+</div>

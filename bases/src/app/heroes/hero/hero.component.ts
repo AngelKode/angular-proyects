@@ -25,4 +25,17 @@ export class HeroComponent implements OnInit {
     return this.age;
   }
 
+  changeName() : void{
+    this.name = "Steve Rogers";
+  }
+
+  changeAge() : void{
+    this.age = 200;
+  }
+
+  resetForm() : void{
+    this.name = "Clark Kent";
+    this.age = 20;
+  }
+
 }
