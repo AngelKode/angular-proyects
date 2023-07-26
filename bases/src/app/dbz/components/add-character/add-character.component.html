@@ -1,12 +1,14 @@
 <h4 class="display-6 text-info">
   Add Character
 </h4>
-<form>
+<form (ngSubmit)="addNewCharacter()">
   <div class="form-floating mb-3">
     <input class="form-control"
            type="text"
            id="characterNameInput"
-           placeholder="Name...">
+           placeholder="Name..."
+           name="characName"
+           [(ngModel)] = "myCharacter.name">
     <label for="characterNameInput">
       Character Name
     </label>
@@ -15,12 +17,15 @@
     <input class="form-control"
            type="number"
            id="characterPowerInput"
-           placeholder="Power...">
+           placeholder="Power..."
+           name="characPower"
+           [(ngModel)] = "myCharacter.power">
     <label for="characterPowerInput">
             Character Power
     </label>
   </div>
   <button class="btn btn-primary mt-4 w-100"
+          [disabled]="myCharacter.name!.length < 1"
           type="submit">
     Add
   </button>
