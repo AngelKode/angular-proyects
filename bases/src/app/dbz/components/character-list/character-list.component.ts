@@ -8,7 +8,7 @@ import { Character } from '../../interfaces/dbz.interface';
 export class CharacterListComponent implements OnInit {
 
   @Input() characters : Character[];
-  @Output() public onDeleteCharacter : EventEmitter<number> = new EventEmitter();
+  @Output() public onDeleteCharacter : EventEmitter<string> = new EventEmitter();
 
   constructor() {
     this.characters = [];
@@ -17,8 +17,8 @@ export class CharacterListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  deleteCharacter(index : number) : void{
-      this.onDeleteCharacter.emit(index);
+  deleteCharacter(idToDelete : string) : void{
+      this.onDeleteCharacter.emit(idToDelete);
   }
 
 }

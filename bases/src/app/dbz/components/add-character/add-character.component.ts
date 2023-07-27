@@ -11,7 +11,8 @@ export class AddCharacterComponent implements OnInit {
 
   public myCharacter : Character = {
     name : '',
-    power : 0
+    power : 0,
+    id : ''
   }
 
   constructor(
