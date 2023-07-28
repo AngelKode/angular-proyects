@@ -18,8 +18,4 @@ export class HomePageComponent implements OnInit {
     return this.gifService.gifList;
   }
 
-  get isFetching() : boolean{
-    return this.gifService.isLoading;
-  }
-
 }

@@ -26,8 +26,6 @@ export class GifService {
   public searchTag(tag : string) : void{
     if(tag.length < 1) return;
 
-    this.isLoading = true;
-
     tag = tag.toLowerCase();
 
     if(this._tagsHistory.includes(tag)){
@@ -42,7 +40,6 @@ export class GifService {
 
     this.httpRequest.get<SearchGifResponse>(`${BASE_API_URL}/search`,{params:requestParams, headers:requestHeaders})
     .subscribe(({data : gifsData}) => {
-      this.isLoading = false;
       this.gifList = [...gifsData];
     })
 

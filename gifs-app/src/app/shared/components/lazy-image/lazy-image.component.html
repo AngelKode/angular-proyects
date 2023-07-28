@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-center bg-black">
+  <img class="img-fluid animate__animated animate__fadeIn animate__delay_2s" style="max-height: 30vh; width: 100%;"
+       [src]="imageUrl"
+       [alt]="imageAlt"
+       (load)="onLoad()"
+       [ngStyle]="{display : !isLoading ? '' : 'none'}">
+  <img class="m-3 h-35 w-35 animate__animated animate__fadeDown"
+        src="assets/svg/loading.svg"
+        *ngIf="isLoading"
+  />
+</div>
