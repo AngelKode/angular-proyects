@@ -1,0 +1,8 @@
+{
+  "/v1/gifs/search/*": {
+    "target": "https://api.giphy.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

@@ -1,0 +1,14 @@
+<div class="container text-center mt-4">
+  <div class="row g-4" *ngIf="getGifItems; else noGifs">
+    <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center"
+         *ngFor="let gif of getGifItems">
+         <gifs-item
+            [title]="gif.title"
+            [imgSource]="gif.images.fixed_height_still.url">
+        </gifs-item>
+    </div>
+  </div>
+  <ng-template #noGifs>
+    <h4 class="display-5 text-danger">No gifs to show.</h4>
+  </ng-template>
+</div>
