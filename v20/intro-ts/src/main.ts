@@ -4,6 +4,7 @@ import './topics/object'
 import './topics/functions'
 import './topics/hw-01'
 import './topics/object-destructure'
+import calculateValidStudent,{ type Student } from './topics/modules'
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
