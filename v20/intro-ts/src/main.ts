@@ -6,6 +6,7 @@ import './topics/hw-01'
 import './topics/object-destructure'
 import './topics/Generics'
 import './topics/decorators'
+import './topics/optional-chaining'
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
