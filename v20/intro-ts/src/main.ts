@@ -5,6 +5,7 @@ import './topics/functions'
 import './topics/hw-01'
 import './topics/object-destructure'
 import './topics/Generics'
+import './topics/decorators'
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
