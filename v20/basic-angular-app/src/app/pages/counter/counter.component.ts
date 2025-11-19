@@ -1,7 +1,8 @@
-import { Component, signal, WritableSignal } from "@angular/core";
+import { Component, Signal, signal, WritableSignal } from "@angular/core";
 
 @Component({
-  templateUrl : 'counter.component.html'
+  templateUrl : 'counter.component.html',
+  styleUrl : 'counter.component.css'
 })
 export class CounterPage{
   public counter:WritableSignal<number> = signal(0);
