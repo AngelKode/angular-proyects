@@ -1,13 +1,17 @@
-<div class="row">
-  <div class="row align-items-center justify-content-center">
-    <h1 class="col-4">Counter Component</h1>
-    <h1 class="col-4 display-4">Valor: {{counter()}}</h1>
+<div class="container">
+  <div class="row align-items-center justify-content-around">
+    <h1 class="col display-1">Counter Component</h1>
   </div>
-</div>
-<div class="row justify-content-around">
-  <button (click)="decreaseCounter(2)" type="button" class="btn btn-danger col-2">- 1</button>
-  <button (click)="resetCounter()" type="button" class="btn btn-info col-2">Reset</button>
-  <button (click)="increaseCounter(2)" type="button" class="btn btn-success col-2">+ 1</button>
+  <div class="row align-items-center justify-content-center">
+      <h2 class="col-3 display-3">Valor: </h2>
+      <h2 class="col-3 display-3">{{counter()}}</h2>
+  </div>
+
+  <div class="row justify-content-evenly">
+    <button (click)="decreaseCounter(2)" type="button" class="btn btn-danger col-2"><span>-1</span></button>
+    <button (click)="resetCounter()" type="button" class="btn btn-info col-2"><span>Reset</span></button>
+    <button (click)="increaseCounter(2)" type="button" class="btn btn-success col-2"><span>+1</span></button>
+  </div>
 </div>
 
 
