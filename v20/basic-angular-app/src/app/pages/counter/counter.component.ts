@@ -1,4 +1,4 @@
-import { Component, Signal, signal, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Signal, signal, WritableSignal } from "@angular/core";
 
 @Component({
   templateUrl : 'counter.component.html'
